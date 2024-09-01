@@ -17,7 +17,11 @@ def get_page_title(soup):
     my_title= soup.find('h1',attrs={'class':'post-title'})
     return my_title.text
     
-    
+def get_content_author(soup):
+    get_author  = soup.find('span', attrs={'class':'meta-item post-author'})
+    by_name =  get_author.find('span', class_='by').text.strip()
+    author = get_author.find('a').text.strip()
+    return by_name,author
     
     
 def extract_detail(url):
@@ -26,6 +30,7 @@ def extract_detail(url):
     htmlpage = get_page_info(url)
     soup = bs4.BeautifulSoup(htmlpage,'lxml')
     detail['title'] = get_page_title(soup)
+    detail['author'] = get_content_author(soup)
     print(detail)
 
 
