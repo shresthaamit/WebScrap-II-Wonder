@@ -13,12 +13,20 @@ def get_page_info(url):
     resp = requests.get(url=url,headers=REQUEST_HEADER)
     return resp.content
 
+def get_page_title(soup):
+    my_title= soup.find('h1',attrs={'class':'post-title'})
+    return my_title.text
+    
+    
+    
+    
 def extract_detail(url):
     detail = {}
-    print("URL:", url)
+    # print("URL:", url)
     htmlpage = get_page_info(url)
-    print(htmlpage)
-
+    soup = bs4.BeautifulSoup(htmlpage,'lxml')
+    detail['title'] = get_page_title(soup)
+    print(detail)
 
 
 if __name__ == "__main__":
