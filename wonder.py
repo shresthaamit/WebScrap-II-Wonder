@@ -23,7 +23,10 @@ def get_content_author(soup):
     author = get_author.find('a').text.strip()
     return by_name,author
     
-    
+def get_category(soup):
+    get_category = soup.find('span', attrs={'class': 'cat-label'})
+    get_category_name = get_category.find('a')
+    return get_category_name.text.strip().split()[0]
 def extract_detail(url):
     detail = {}
     # print("URL:", url)
@@ -31,6 +34,7 @@ def extract_detail(url):
     soup = bs4.BeautifulSoup(htmlpage,'lxml')
     detail['title'] = get_page_title(soup)
     detail['author'] = get_content_author(soup)
+    detail['category'] = get_category(soup)
     print(detail)
 
 
