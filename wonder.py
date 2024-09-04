@@ -38,6 +38,10 @@ def get_side_categories(soup):
         if get_link:
             allcategories_list.append(get_link.text.strip())
     return allcategories_list
+
+def get_update_popularContent(soup):
+    sidebar = soup.find('aside', attrs={'class':'sidebar'})
+    print(sidebar)
 def extract_detail(url):
     detail = {}
     # print("URL:", url)
@@ -47,6 +51,7 @@ def extract_detail(url):
     detail['author'] = get_content_author(soup)
     detail['category'] = get_category(soup)
     detail['allsidecategories'] = get_side_categories(soup)
+    detail.update(get_update_popularContent(soup))
     print(detail)
 
 
