@@ -39,9 +39,9 @@ def get_side_categories(soup):
             allcategories_list.append(get_link.text.strip())
     return allcategories_list
 
-def get_update_popularContent(soup):
-    sidebar = soup.find('aside', attrs={'class':'sidebar'})
-    print(sidebar)
+# def get_update_popularContent(soup):
+#     sidebar = soup.find('aside', attrs={'class':'sidebar'})
+#     print(sidebar)
 def extract_detail(url):
     detail = {}
     # print("URL:", url)
@@ -51,14 +51,28 @@ def extract_detail(url):
     detail['author'] = get_content_author(soup)
     detail['category'] = get_category(soup)
     detail['allsidecategories'] = get_side_categories(soup)
-    detail.update(get_update_popularContent(soup))
-    print(detail)
+    # detail.update(get_update_popularContent(soup))
+    return detail
 
 
 if __name__ == "__main__":
+    alldetail = []
     with open('wonder.csv') as file:
         reader = csv.reader(file,delimiter=',')
         for i in reader:
             url = i[0]
-            extract_detail(url)
-            
+            alldetail.append(extract_detail(url))
+            # print(alldetail)
+    output_file = "output.csv"
+
+# Writing to CSV
+    with open(output_file, "w", newline='') as outputfile:
+        writer = csv.writer(outputfile)
+        writer.writerow(list(alldetail[0].keys()))  
+        for detail in alldetail:
+            writer.writerow(detail.values())     
+    # output_file = 'Output-{}.csv'.format(datetime.today().strftime("%m-%d-%y"))
+    # with open(output_file,"w") as outputfile:
+    #     writer = csv.writer(outputfile)
+    #     writer.writerow(alldetail[0].keys)
+    
